@@ -10,7 +10,7 @@ help::
 	@echo "=============================="
 
 .PHONY: setup
-setup: generate_certificates build up_d update_ca_certificates composer_install reset migrate ## Build docker images and install dependencies
+setup: generate_certificates build up_d update_ca_certificates composer_install migrate ## Build docker images and install dependencies
 
 .PHONY: start
 start: up_d logs ## Start dev environment

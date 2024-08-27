@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-bullseye as base
+FROM php:8.2-fpm-bullseye AS base
 
 RUN apt update \
     && apt install -y git unzip  \
@@ -10,11 +10,11 @@ RUN pecl install xdebug-3.2.2 \
     && pecl install redis \
     && docker-php-ext-enable xdebug redis
 
-ARG SYMFONY_CLI_VERSION=4.28.1
+ARG SYMFONY_CLI_VERSION=5.10.2
 RUN curl -sSLk https://get.symfony.com/cli/installer | bash
-COPY docker/php-fpm/symfony.ini /usr/local/etc/php/conf.d/
-COPY docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/
-COPY docker/php-fpm/zz-docker.conf /usr/local/etc/php-fpm.d/
+COPY symfony.ini /usr/local/etc/php/conf.d/
+COPY www.conf /usr/local/etc/php-fpm.d/
+COPY zz-docker.conf /usr/local/etc/php-fpm.d/
 
 RUN ln -s /usr/local/bin/php /usr/bin/php
 
@@ -28,7 +28,7 @@ WORKDIR $PROJECT_DIR
 # RUN mkdir /var/www/.ssh && \
 #    echo "Host private.gitlab.repo\n\tStrictHostKeyChecking no\n" > /var/www/.ssh/config
 
-FROM base as dev
+FROM base AS dev
 
 RUN chown -R www-data:www-data $PROJECT_DIR
 RUN chown -R www-data:www-data /var/www
